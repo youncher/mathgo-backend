@@ -24,6 +24,8 @@ def handle_validation():
 		provided_gid = content.get("gid")
 		provided_id_token = content.get("idToken")
 		
+		user_status = {}
+		
 		# Missing required fields = sign in fail
 		if provided_gid == None or provided_id_token == None:
 			print("Debug: Missing required field: gid or idToken")
@@ -32,8 +34,6 @@ def handle_validation():
 			
 		# Verify user token
 		valid_google_user = validate_google_user(provided_id_token);
-		
-		user_status = {}
 		
 		# Invalid user token
 		if not valid_google_user:
