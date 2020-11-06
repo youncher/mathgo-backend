@@ -82,7 +82,6 @@ def handle_registration():
 		new_user = datastore.entity.Entity(key=datastore_client.key(constants.userEntity))
 		new_user.update({"displayName": provided_name, "gid": provided_gid, "avatar": provided_avatar})
 		datastore_client.put(new_user)
-		user_status = {"loginSuccessful": True}
 		return json.dumps(user_status), 201
 	else:
 		return "Method not recognized"
