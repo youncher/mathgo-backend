@@ -23,36 +23,36 @@ def handle_validation():
 		content = request.get_json()
 		provided_gid = content.get("gid")
 		provided_id_token = content.get("idToken")
-		
+
 		user_status = {}
-		
+
 		# Missing required fields = sign in fail
 		if provided_gid == None or provided_id_token == None:
 			print("Debug: Missing required field: gid or idToken")
 			user_status["loginSuccessful"] = False
 			return json.dumps(user_status), 401
-			
+
 		# Verify user token
 		valid_google_user = validate_google_user(provided_id_token);
-		
+
 		# Invalid user token
 		if not valid_google_user:
 			user_status["loginSuccessful"] = False
 			return json.dumps(user_status), 401
-			
+
 		user_status["loginSuccessful"] = True
-		
+
 		# Check if provided_gid is an existing mathgo user datastore
 		query = datastore_client.query(kind=constants.userEntity)
 		query.add_filter('gid', '=', provided_gid)
 		users = list(query.fetch())
-		
+
 		if (len(users) == 1) and (users[0]["gid"] == provided_gid):
 			user_status["avatar"] = users[0]["avatar"]
 			user_status["existingUser"] = True
 		else:
 			user_status["existingUser"] = False
-			
+
 		return json.dumps(user_status), 200
 	else:
 		return "Method not recognized"
@@ -65,6 +65,28 @@ def validate_google_user(provided_id_token):
 		print("Debug: Issue validating user token")
 		return False
 	return True
+
+
+@app.route('/user/registration', methods=['POST'])
+def handle_registration():
+	if request.method == 'POST':
+		content = request.get_json()
+		# grabs values from JSON sent from mobile application
+		provided_gid = content.get("gid")
+		provided_name = content.get("displayName")
+		provided_avatar = content.get("avatar")
+
+		user_status = {"addSuccessful": True}
+
+		# creating a new user to register into database
+		new_user = datastore.entity.Entity(key=datastore_client.key(constants.userEntity))
+		new_user.update({"displayName": provided_name, "gid": provided_gid, "avatar": provided_avatar})
+		datastore_client.put(new_user)
+		user_status = {"loginSuccessful": True}
+		return json.dumps(user_status), 201
+	else:
+		return "Method not recognized"
+
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
