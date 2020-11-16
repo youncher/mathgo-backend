@@ -1,1 +1,2 @@
 userEntity = "User"
+problemEntity = "Problem"

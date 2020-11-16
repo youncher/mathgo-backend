@@ -81,6 +81,12 @@ def handle_registration():
 	return "Added User Successfully", 201
 
 
+@app.route('/math-problems', methods=['GET'])
+def problemList():
+	query = datastore_client.query(kind=constants.problemEntity)
+	results = list(query.fetch())
+	return json.dumps(results)
+
 
 if __name__ == '__main__':
     # This is used when running locally only. When deploying to Google App
