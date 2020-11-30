@@ -9,7 +9,8 @@ This is used as the backend for the Math Go project (https://github.com/youncher
 5. Run the application: `python main.py`
 
 ## Deploying to Google App Engine
-`gcloud app deploy`
+1. Inside main.py, replace `"Enter_Google_Signin_webClientId"` with your Web Client Id.
+2. `gcloud app deploy`
 
 ## API URL
 * Local: http://localhost:8080
