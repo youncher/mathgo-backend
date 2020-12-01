@@ -31,7 +31,7 @@ def handle_validation():
 		return "Missing required field: gid or idToken", 401
 
 	# Verify user token
-	valid_google_user = validate_google_user(provided_id_token);
+	valid_google_user = validate_google_user(provided_id_token)
 
 	# Invalid user token
 	if not valid_google_user:
@@ -44,6 +44,7 @@ def handle_validation():
 
 	if (len(users) == 1) and (users[0]["gid"] == provided_gid):
 		user_status["avatar"] = users[0]["avatar"]
+		user_status["displayName"] = users[0]["displayName"]
 		user_status["existingUser"] = True
 	else:
 		user_status["existingUser"] = False
