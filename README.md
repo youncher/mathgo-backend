@@ -4,7 +4,7 @@ This is used as the backend for the Math Go project (https://github.com/youncher
 ## Running the project locally
 1. Clone this repository and cd into the project
 2. Create python virtual environment: `python3 -m venv venv`
-3. Activate the Python virtual environment: `source env/bin/activate`
+3. Activate the Python virtual environment: `source venv/bin/activate`
 4. Install requirements: `pip install  -r requirements.txt`
 5. Run the application: `python main.py`
 
